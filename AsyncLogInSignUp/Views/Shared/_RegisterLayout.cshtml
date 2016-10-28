@@ -1,0 +1,53 @@
+﻿@model AsyncLogInSignUp.Models.RegisterViewModel
+
+@using (Ajax.BeginForm("Register", "Account", null,
+                           new AjaxOptions
+                           {
+                               HttpMethod = "POST",
+                               OnBegin = "onBeginSignUp",
+                               OnSuccess = "OnSignUp"
+                           }, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal fade" id="RegisterModal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content _modalContent">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title _colorWhite" id="exampleModalLabel">Register</h4>
+                </div>
+                <div class="modal-body _bgWhite">
+                    <div class="form-group" style="margin-bottom: 10px !important;">
+                        <span id="signUpMsg" class="text-danger col-md-offset-3">
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "email", @placeholder = "Email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger col-md-offset-3" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @id = "regPassword", @placeholder = "Password"})
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger col-md-offset-3" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-3 control-label" })
+                        @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @id = "cpassword", @placeholder = "Confirm Password" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger col-md-offset-3" })
+                    </div>
+                    
+                        <div class="form-group">
+                            <div class="col-md-offset-3">
+                                <input type="submit" value="Register" id="register_btn" class="btn btn-success" />
+                                <button type="button" id="_loadingBtnRegister" class="btn btn-success"><span class="glyphicon glyphicon-refresh spinning"></span>Loading...</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                            <a class="col-md-offset-3 _links" href="#" data-toggle="modal" data-dismiss="modal" data-target="#loginModal">Already registered ? Log in here</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+}
+

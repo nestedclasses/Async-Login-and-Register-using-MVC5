@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    @Html.Partial("_LoginLayout", null)
+    @Html.Partial("_RegisterLayout", null)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/ajax")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $("#_loadingBtnLogin").hide();
+        $("#_loadingBtnRegister").hide();
+        $("#error_msg").hide();
+    });
+    // Login
+    function myLoginBegin() {
+        $("#login_btn").hide();
+        $('#_loadingBtnLogin').prop('disabled', true);
+        $("#_loadingBtnLogin").show();
+        $("#error_msg").hide();
+    }
+    function myLoginEnd(response) {
+        if (response == true) {
+            window.location.href = "/Home/Index";
+        }
+        else if (response == "error") {
+            $("#_loadingBtnLogin").hide();
+            $("#login_btn").show();
+            $('.bt-login').prop('disabled', false);
+            $("#error_msg").show();
+            $("#_messageLogin").html("Failure! Invalid login attempt.");
+        }
+        else if(response == "verify")
+        {
+            $("#_loadingBtnLogin").hide();
+            $("#login_btn").show();
+            $('.bt-login').prop('disabled', false);
+            $("#error_msg").show();
+            $("#_messageLogin").html("You have not verified yet. Please check your mail!");
+        }
+        else {
+            $("#_loadingBtnLogin").hide();
+            $("#login_btn").show();
+            window.location.href = response;
+        }
+    }
+    //Login end
+
+    //SignUp
+    function onBeginSignUp() {
+        $('#_loadingBtnRegister').prop('disabled', true);
+        $("#_loadingBtnRegister").show();
+        $("#register_btn").hide();
+        $("#signUpMsg").hide();
+        $('#register_btn').addClass('active');
+        $('#register_btn').prop('disabled', true);
+    }
+
+    function OnSignUp(response) {
+        if (response == true) {
+            $("#_loadingBtnRegister").hide();
+            $("#register_btn").show();
+            $('#register_btn').prop('disabled', true);
+            $("#signUpMsg").css("color", "#27ae60");
+            $("#signUpMsg").css("display", "block");
+            $("#signUpMsg").html("Success! Please check your mail and verify it. ");
+            $("#signUpMsg").show();
+        }
+          else if (response == false) {
+                $("#_loadingBtnRegister").hide();
+                $("#signUpMsg").show();
+                $("#register_btn").show();
+                $("#signUpMsg").css("display", "block");
+                $("#signUpMsg").html("Failure! Something went wrong. Please check once again.");
+                $("#loadImgSignUp").empty();
+                $('#register_btn').prop('disabled', false);
+            }
+        else {
+            $("#_loadingBtnRegister").hide();
+            $("#signUpMsg").show();
+            $("#signUpMsg").css("display", "block");
+            $("#register_btn").show();
+            $("#signUpMsg").html(response[0]);
+            $('#register_btn').prop('disabled', false);
+        }
+    }
+    //SignUp end
+
+    $("#RegisterModal").on("hidden.bs.modal", function () {
+        $(".field-validation-error").html("");;
+        $("#email").val("");
+        $("#regPassword").val("");
+        $("#cpassword").val("");
+        $("#_loadingBtnRegister").hide();
+        $("#register_btn").show();
+        $("#signUpMsg").html("");
+        $('#register_btn').prop('disabled', false);
+    });
+    $("#loginModal").on("hidden.bs.modal", function () {
+        $(".field-validation-error").html("");
+        $("#login_username").val("");
+        $("#password").val("");
+        $("#_loadingBtnLogin").hide();
+        $("#_messageLogin").html("");
+        $("#login_btn").show();
+        $('#login_btn').prop('disabled', false);
+    });
+</script>
