@@ -3,7 +3,7 @@
 Now a days every application have async login and sign up functionality. 
 This project is all about how to create login and sign up functionality asynchronously using ASP.Net MVC5, Bootstrap, jQuery, Ajax, HTML5, CSS
 
-Please click the below link here to learn step by step how to implemented this project in real time.
+Please click the below link here to learn step by step how this project has been implemented in real time.
 http://www.nestedclasses.com/Blog/MVC/1
 and 
 http://www.nestedclasses.com/Blog/Mvc/2
